@@ -2,17 +2,19 @@ const express = require('express');
 const router = express.Router();
 
 const adminCtrl = require('../controllers/admin');
-// const auth = require('../middleware/auth');
+const auth = require('../middleware/auth');
 
 
-router.put('/modify/:id', adminCtrl.modify);
-router.put('/modifyRole/:id', adminCtrl.modifyRole);
-router.put('/delete/:id', adminCtrl.delete);
-router.delete('/deleteHard/:id', adminCtrl.deleteHard);
-router.post('/create/', adminCtrl.create);
-router.get('/getOne/:id', adminCtrl.getOne);
-router.get('/getAll',  adminCtrl.getAll);
-router.get('/getVeryAll',  adminCtrl.getVeryAll);
+router.delete('/deleteHard/:id', auth, adminCtrl.deleteHard);
+router.get('/getOne/:id', auth, adminCtrl.getOne);
+router.get('/getAll', auth ,adminCtrl.getAll);
+router.get('/getVeryAll', auth,  adminCtrl.getVeryAll);
+router.post('/create/', auth, adminCtrl.create);
+router.post('/login', adminCtrl.login);
+router.put('/modify/:id', auth, adminCtrl.modify);
+router.put('/modifyRole/:id', auth, adminCtrl.modifyRole);
+router.put('/delete/:id', auth, adminCtrl.delete);
+
 
 
 module.exports = router;
