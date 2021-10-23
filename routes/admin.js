@@ -9,7 +9,7 @@ router.delete('/deleteHard/:id', auth, adminCtrl.deleteHard);
 router.get('/getOne/:id', auth, adminCtrl.getOne);
 router.get('/getAll', auth ,adminCtrl.getAll);
 router.get('/getVeryAll', auth,  adminCtrl.getVeryAll);
-router.post('/create/', auth, adminCtrl.create);
+router.post('/create/',auth,  adminCtrl.create);
 router.post('/login', adminCtrl.login);
 router.put('/modify/:id', auth, adminCtrl.modify);
 router.put('/modifyRole/:id', auth, adminCtrl.modifyRole);

@@ -3,17 +3,21 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const path = require('path');
 
 // Importer les routes
 const adminRoutes = require('./routes/admin')
-
+const categoryRoutes = require('./routes/category')
+const productRoutes = require('./routes/product')
 
 mongoose.connect('mongodb+srv://josephaxelad:n4141O154@cluster0.fzbwh.mongodb.net/shop?retryWrites=true&w=majority',
   { useNewUrlParser: true,
-    useUnifiedTopology: true })
+    useUnifiedTopology: true,
+    useCreateIndex: true
+   })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
-
+  
 // Eviter les erreurs de CORS signifie « Cross Origin Resource Sharing »
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -25,7 +29,10 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 // Routes
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/admin', adminRoutes);
+app.use('/api/category', categoryRoutes);
+app.use('/api/product', productRoutes);
 
 
 
