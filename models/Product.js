@@ -9,6 +9,7 @@ const productSchema = mongoose.Schema({
   stock : { type : Number, required : true, default : 1 },
   isHidden : { type : Boolean, required : true, default : false},
   isDeleted : { type : Boolean, required : true, default : false },
+  isVisible : { type : Boolean, required : true, default : true },
   inStock : { type : Boolean, required : true, default : true },
   inTrend : { type : Boolean, required : true, default : false },
   inPromotion : { type : Boolean, required : false, default : 0 },
@@ -22,6 +23,8 @@ const productSchema = mongoose.Schema({
   pictures : { type : [String], required : false },
   price : { type : Number, required : true },
   tags : { type : [String], required : false },
+  createdBy : { type : String, required : true, default : "null"},
+  creationDate : { type : Date, required : true}
 
 });
 

@@ -48,7 +48,7 @@ exports.modify =  (req, res, next) => {
 }
 
 /**
- * Archive un élément
+ * Archive ou désarchive un élément
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
@@ -56,7 +56,20 @@ exports.modify =  (req, res, next) => {
  exports.isHidden = (req, res, next) => {
     const isHidden = req.body.isHidden
     Product.updateOne({ _id: req.params.id },{$set : {isHidden : isHidden}})
-        .then(() => res.status(200).json({ message: 'Objet masqué !'}))
+        .then(() => res.status(200).json({ message: 'Archive mise à jour !'}))
+        .catch(error => res.status(400).json({ error }));
+}
+
+/**
+ * Rend visible ou invisible un élément
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+ exports.isVisible = (req, res, next) => {
+    const isVisible = req.body.isVisible
+    Product.updateOne({ _id: req.params.id },{$set : {isVisible : isVisible}})
+        .then(() => res.status(200).json({ message: 'Visibilité mise à jour !'}))
         .catch(error => res.status(400).json({ error }));
 }
 
@@ -88,9 +101,17 @@ exports.delete = (req, res, next) => {
  * @param {*} next 
  */
 exports.deleteHard = (req, res, next) => {
-    Product.deleteOne({ _id: req.params.id })
+    Product.findOne({ _id: req.params.id })
+    .then(thing => {
+      const filename = thing.imageUrl.split('/images/products/')[1];
+      fs.unlink(`images/products/${filename}`, () => {
+        Product.deleteOne({ _id: req.params.id })
         .then(() => res.status(200).json({ message: 'Objet supprimé définitivement !'}))
         .catch(error => res.status(400).json({ error }));
+      });
+    })
+    .catch(error => res.status(500).json({ error }));
+    
 }
 
 /**

@@ -13,6 +13,7 @@ router.post('/create/', auth, multer ,ctrl.create);
 router.put('/modify/:id', auth, multer, ctrl.modify);
 router.put('/delete/:id', auth, ctrl.delete);
 router.put('/isHidden/:id', auth, ctrl.isHidden);
+router.put('/isVisible/:id', auth, ctrl.isVisible);
 
 
 

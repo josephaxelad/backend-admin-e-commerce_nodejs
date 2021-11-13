@@ -10,13 +10,25 @@ const adminRoutes = require('./routes/admin')
 const categoryRoutes = require('./routes/category')
 const productRoutes = require('./routes/product')
 
-mongoose.connect('mongodb+srv://josephaxelad:n4141O154@cluster0.fzbwh.mongodb.net/shop?retryWrites=true&w=majority',
+if (process.env.USERNAME == "josephaxelad") {
+  mongoose.connect('mongodb://127.0.0.1:27017/shop?retryWrites=true&w=majority',
+  { useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+   })
+  .then(() => console.log('Connexion à MongoDB réussie (local) !'))
+  .catch(() => console.log('Connexion à MongoDB échouée (local) !'));
+} else {
+  mongoose.connect('mongodb+srv://josephaxelad:n4141O154@cluster0.fzbwh.mongodb.net/shop?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
    })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
+}
+
+
   
 // Eviter les erreurs de CORS signifie « Cross Origin Resource Sharing »
 app.use((req, res, next) => {
