@@ -12,7 +12,7 @@ exports.create =  (req, res, next) => {
     delete req.body._id;
     const product = new Product({
         ...object,
-        imageUrl: `${req.protocol}://${req.get('host')}/images/products/${req.file.filename}`
+        picture : req.file.filename,
     });
     product.save()
     .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
@@ -28,20 +28,20 @@ exports.create =  (req, res, next) => {
 exports.modify =  (req, res, next) => {
     Product.findOne({ _id: req.params.id })
     .then(thing => {
-      const filename = thing.imageUrl.split('/images/products/')[1];
-      fs.unlink(`images/products/${filename}`, () => {
         const object = JSON.parse(req.body.product);
         delete req.body._id;
         const product = req.file ? {
         ...object,
-        imageUrl: `${req.protocol}://${req.get('host')}/images/products/${req.file.filename}`
+        picture : req.file.filename,
+        // imageUrl: `${req.protocol}://${req.get('host')}/images/products/${req.file.filename}`
         } : { ...object };
         Product.updateOne({ _id: req.params.id }, { 
             ...product,
             _id: req.params.id })
             .then(() => res.status(200).json({ message: 'Objet modifié !'}))
-            .catch(error => res.status(400).json({ error }));
-        });
+            .catch(error => res.status(400).json({ error }
+        ));
+        
     })
     .catch(error => res.status(500).json({ error }));
 
@@ -82,12 +82,12 @@ exports.modify =  (req, res, next) => {
 exports.delete = (req, res, next) => {
     Product.findOne({ _id: req.params.id })
     .then(thing => {
-      const filename = thing.imageUrl.split('/images/products/')[1];
-      fs.unlink(`images/products/${filename}`, () => {
-        Product.updateOne({ _id: req.params.id },{$set : {isDeleted : true}})
-        .then(() =>  res.status(200).json({ message: 'Objet supprimé !'}))
-        .catch(error => res.status(400).json({ error }));
-      });
+        const filename = thing.picture;
+        fs.unlink(`images/products/${filename}`, () => {
+            Product.updateOne({ _id: req.params.id },{$set : {isDeleted : true}})
+            .then(() =>  res.status(200).json({ message: 'Objet supprimé !'}))
+            .catch(error => res.status(400).json({ error }));
+        });
     })
     .catch(error => res.status(500).json({ error }));
 
@@ -103,12 +103,12 @@ exports.delete = (req, res, next) => {
 exports.deleteHard = (req, res, next) => {
     Product.findOne({ _id: req.params.id })
     .then(thing => {
-      const filename = thing.imageUrl.split('/images/products/')[1];
-      fs.unlink(`images/products/${filename}`, () => {
-        Product.deleteOne({ _id: req.params.id })
-        .then(() => res.status(200).json({ message: 'Objet supprimé définitivement !'}))
-        .catch(error => res.status(400).json({ error }));
-      });
+        const filename = thing.picture;
+        fs.unlink(`images/products/${filename}`, () => {
+            Product.deleteOne({ _id: req.params.id })
+            .then(() => res.status(200).json({ message: 'Objet supprimé définitivement !'}))
+            .catch(error => res.status(400).json({ error }));
+        });
     })
     .catch(error => res.status(500).json({ error }));
     

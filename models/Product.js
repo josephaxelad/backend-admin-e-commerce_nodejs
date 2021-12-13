@@ -19,7 +19,6 @@ const productSchema = mongoose.Schema({
   category : { type: category.schema, required : false },
   weight : { type : Number, required : true, default : 1 },
   picture : { type : String, required : false },
-  imageUrl : { type : String, required : false },
   pictures : { type : [String], required : false },
   price : { type : Number, required : true },
   tags : { type : [String], required : false },
