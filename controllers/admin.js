@@ -73,12 +73,12 @@ exports.login = (req, res, next) => {
     Admin.findOne({ login : req.body.login})
     .then((admin)=>{
         if (!admin) {
-            return  res.status(401).json({ error: "Ce login n'existe pas!" });
+            return  res.status(401).json({code : 0, error: "Ce login n'existe pas!" });
         }
         bcrypt.compare(req.body.password, admin.password)
         .then((valid)=>{
             if (!valid) {
-                return res.status(401).json({ error: 'Mot de passe incorrect !' });
+                return res.status(401).json({code : 0, error: 'Mot de passe incorrect !' });
             } 
             res.status(200).json({
                 adminId: admin._id,
