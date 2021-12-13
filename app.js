@@ -9,6 +9,7 @@ const path = require('path');
 const adminRoutes = require('./routes/admin')
 const categoryRoutes = require('./routes/category')
 const productRoutes = require('./routes/product')
+const customerRoutes = require('./routes/customer')
 
 if (process.env.USERNAME == "josephaxelad") {
   mongoose.connect('mongodb://127.0.0.1:27017/shop?retryWrites=true&w=majority',
@@ -45,6 +46,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/admin', adminRoutes);
 app.use('/api/category', categoryRoutes);
 app.use('/api/product', productRoutes);
+app.use('/api/user', customerRoutes);
 
 
 
